@@ -27,39 +27,46 @@
 </html>
 <script>
     $(".url-btn").on("click",function(){
-        //var url=$(this).val();
         var tform=$(this).closest("form");
         var ajax_url="/api/html/mine";
         var params=$(tform).serialize();
-        //params="&url="+url;
-
+        $(".url_info").html('');
         $.post(ajax_url,params,"","json").done(function(rs){
-            var text=`
-            <div class="row">
-                    <div class="col-xs-2 pr-2 text-primary">Image</div>
-                    <div class="col-xs-8"><img src="${rs.data.image}" width="200"></div>
-            </div>
-            <div class="row">
-                    <div class="col-xs-2 pr-2 text-primary">Title</div>
-                    <div class="col-xs-8">${rs.data.title}</div>
-                </div>
-                <br/>
+
+            if(rs.ret==0){
+                alert('網址錯誤或查無資訊');
+            }
+            else if(rs.ret==1){
+                var text=`
                 <div class="row">
-                    <div class="col-xs-2 pr-2 text-primary">Description</div>
-                    <div class="col-xs-8">${rs.data.description}</div>
+                        <div class="col-xs-2 pr-2 text-primary">Image</div>
+                        <div class="col-xs-8"><img src="${rs.data.image}" width="200"></div>
                 </div>
-                <br/>
                 <div class="row">
-                    <div class="col-xs-2 pr-2 text-primary">Created At</div>
-                    <div class="col-xs-8">${rs.data.created_at}</div>
-                </div>
-                <br/>
-                <div class="row">
-                    <div class="col-xs-2 pr-2 text-primary">Screenshot</div>
-                    <div class="col-xs-8"></div>
-                </div>
-            `;
-            $(".url_info").html(text);
+                        <div class="col-xs-2 pr-2 text-primary">Title</div>
+                        <div class="col-xs-8">${rs.data.title}</div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-xs-2 pr-2 text-primary">Description</div>
+                        <div class="col-xs-8">${rs.data.description}</div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-xs-2 pr-2 text-primary">Created At</div>
+                        <div class="col-xs-8">${rs.data.created_at}</div>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-xs-2 pr-2 text-primary">Screenshot</div>
+                        <div class="col-xs-8"></div>
+                    </div>
+                `;
+                $(".url_info").html(text);
+            }
+            else {
+                alert("網路發生錯誤，請稍後再試");
+            }
         });
     });
 </script>
